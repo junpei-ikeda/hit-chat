@@ -1,0 +1,44 @@
+/* Footer.css */
+
+/* フッターのスタイル */
+.footer {
+  background-color: #f7fafc;  /* 背景色: light gray */
+  color: #4a5568;  /* テキスト色: dark gray */
+  font-size: 0.875rem;  /* 小さめの文字 */
+  padding: 2rem 1rem;  /* 上下に大きめのパディング */
+  margin-top: 2rem;
+  text-align: center;  /* テキストを中央揃え */
+}
+
+/* フッターコンテナ */
+.footer-container {
+  max-width: 1200px;  /* 最大幅を設定 */
+  margin: 0 auto;  /* コンテナを中央揃え */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;  /* 要素間の間隔 */
+}
+
+/* コピーライトのスタイル */
+.footer-text {
+  margin-bottom: 0.5rem;  /* 下の余白 */
+}
+
+/* フッターリンクのスタイル */
+.footer-links {
+  display: flex;
+  gap: 1rem;  /* リンク間の間隔 */
+  justify-content: center;  /* リンクを中央揃え */
+}
+
+.footer-link {
+  color: #4a5568;  /* テキスト色 */
+  text-decoration: none;
+  font-size: 0.875rem;  /* リンクのフォントサイズ */
+}
+
+.footer-link:hover {
+  text-decoration: underline;  /* ホバー時に下線 */
+}

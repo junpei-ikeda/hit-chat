@@ -1,0 +1,16 @@
+/project-root/src
+│── /assets # 画像、フォント、アイコン、その他の静的ファイル
+│── /components # 再利用可能な UI コンポーネント（ボタン、モーダル、入力フィールドなど）
+│── /hooks  # カスタムフック（useAuth, useFetch など）
+│── /layouts # 共通のレイアウトコンポーネント（Header, Footer, Sidebar など）
+│── /pages  # ページ単位のコンポーネント（Home, Dashboard, Profile など）
+│── /provider # アプリケーション全体で利用する Context.Provider など
+│── /routes # React Router のルート設定
+│── /services # API 通信やビジネスロジック（api.js, authService.js など）
+│── /stores # 状態管理（Redux, Zustand, Jotai など）
+│── /styles # グローバルなスタイルファイル（CSS, SCSS, Tailwind 設定 など）
+│── /utils  # ヘルパー関数やユーティリティ関数（formatDate, debounce など）
+│── /public # index.html や favicon などの静的ファイル
+│── /tests  # ユニットテスト・統合テスト用のファイル
+│── .env  # 環境変数
+│── package.json # 依存関係・スクリプト管理

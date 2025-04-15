@@ -1,0 +1,11 @@
+/project-root/src
+│── /config # 設定ファイル（環境変数、DB設定など）
+│── /controllers # ルートからのリクエストを処理し、サービスを呼び出す
+│── /middleware # リクエストの前処理（認証、ロギングなど）
+│── /models # データベースのスキーマ・ORMモデル
+│── /routes # エンドポイントの定義（Expressのルート設定）
+│── /services # ビジネスロジック（データ処理・外部API連携など）
+│── /utils  # ヘルパー関数・共通処理
+│── server.js # アプリケーションのエントリーポイント
+│── package.json # 依存関係・スクリプト管理
+│── .env  # 環境変数

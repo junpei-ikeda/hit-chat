@@ -1,0 +1,40 @@
+/* header.module.css */
+
+.header {
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2d3748;
+}
+
+.logo a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.navigation {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.navLink { /* 修正 */
+  color: #4a5568;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.navLink:hover { /* 修正 */
+  color: #3182ce;
+  text-decoration: underline;
+}

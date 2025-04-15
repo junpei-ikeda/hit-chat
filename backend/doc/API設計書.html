@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API設計書</title>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 40px;
+      line-height: 1.8;
+      background-color: #F4F7FB;
+      color: #333;
+    }
+    h1 {
+      font-size: 32px;
+      color: #2C3E50;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    h2 {
+      font-size: 26px;
+      color: #2980B9;
+      margin-bottom: 15px;
+    }
+    h3 {
+      font-size: 20px;
+      color: #34495E;
+      margin-bottom: 10px;
+    }
+    p, ul {
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    pre {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 14px;
+      border: 1px solid #DCDDE1;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      overflow-x: auto;
+    }
+    .api-section {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      margin-bottom: 40px;
+    }
+    .api-section:first-of-type {
+      margin-top: 0;
+    }
+    .param, .response {
+      background-color: #f1f6fb;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .param {
+      background-color: #EAF2F8;
+    }
+    .response {
+      background-color: #D4EFDF;
+    }
+    .api-section h3 {
+      color: #2980B9;
+    }
+    .api-section p {
+      color: #7F8C8D;
+    }
+    a {
+      color: #2980B9;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .nav-list {
+      padding: 0;
+      margin: 20px 0;
+      list-style-type: none;
+      text-align: center;
+    }
+    .nav-list li {
+      display: inline-block;
+      margin-right: 20px;
+    }
+    .nav-list li:last-child {
+      margin-right: 0;
+    }
+    .nav-list a {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>API設計書</h1>
+  <p>このドキュメントは、システムのAPI設計について説明します。使用されるデータベースのテーブル設計に基づき、エンドポイントの仕様を定義します。</p>
+
+  <h2>目次</h2>
+  <ul>
+    <li><a href="#ユーザー情報-api">ユーザー情報 API</a></li>
+    <li><a href="#勤怠記録-api">勤怠記録 API</a></li>
+    <li><a href="#チャットグループ-api">チャットグループ API</a></li>
+    <li><a href="#チャットメッセージ-api">チャットメッセージ API</a></li>
+    <li><a href="#ワークフロー申請-api">ワークフロー申請 API</a></li>
+    <li><a href="#通知-api">通知 API</a></li>
+    <li><a href="#月次経理データ-api">月次経理データ API</a></li>
+    <li><a href="#月次社労士データ-api">月次社労士データ API</a></li>
+  </ul>
+
+  <div id="ユーザー情報-api" class="api-section">
+    <h2>ユーザー情報 API</h2>
+
+    <h3>1.1 GET /users</h3>
+    <p>説明: ユーザー情報のリストを取得します。</p>
+    <div class="response">
+      <pre>[
+  {
+    "id": 1,
+    "name": "山田太郎",
+    "email": "taro@example.com",
+    "role": 0,
+    "created_at": "2025-04-06T12:00:00Z",
+    "updated_at": "2025-04-06T12:00:00Z"
+  }
+]</pre>
+    </div>
+
+    <h3>1.2 GET /users/{id}</h3>
+    <p>説明: 特定のユーザーの詳細情報を取得します。</p>
+    <p><strong>パラメータ:</strong> id: ユーザーID（整数）</p>
+    <div class="response">
+      <pre>{
+  "id": 1,
+  "name": "山田太郎",
+  "email": "taro@example.com",
+  "role": 0,
+  "created_at": "2025-04-06T12:00:00Z",
+  "updated_at": "2025-04-06T12:00:00Z"
+}</pre>
+    </div>
+
+    <h3>1.3 POST /users</h3>
+    <p>説明: 新しいユーザーを作成します。</p>
+    <p><strong>リクエストボディ:</strong></p>
+    <div class="param">
+      <pre>{
+  "name": "鈴木一郎",
+  "email": "ichiro@example.com",
+  "role": 0
+}</pre>
+    </div>
+    <div class="response">
+      <pre>{
+  "id": 3,
+  "name": "鈴木一郎",
+  "email": "ichiro@example.com",
+  "role": 0,
+  "created_at": "2025-04-06T13:00:00Z",
+  "updated_at": "2025-04-06T13:00:00Z"
+}</pre>
+    </div>
+  </div>
+
+  <div id="勤怠記録-api" class="api-section">
+    <h2>勤怠記録 API</h2>
+
+    <h3>2.1 GET /attendance_records</h3>
+    <p>説明: 勤怠記録のリストを取得します。</p>
+    <p><strong>クエリパラメータ:</strong></p>
+    <ul>
+      <li>user_id: ユーザーID（整数）</li>
+      <li>date: 日付（YYYY-MM-DD形式）</li>
+    </ul>
+    <div class="response">
+      <pre>[
+  {
+    "id": 1,
+    "user_id": 1,
+    "date": "2025-04-06",
+    "clock_in_time": "09:00:00",
+    "clock_out_time": "18:00:00",
+    "status": 1,
+    "created_at": "2025-04-06T12:00:00Z",
+    "updated_at": "2025-04-06T12:00:00Z"
+  }
+]</pre>
+    </div>
+
+    <h3>2.2 POST /attendance_records</h3>
+    <p>説明: 新しい勤怠記録を作成します。</p>
+    <p><strong>リクエストボディ:</strong></p>
+    <div class="param">
+      <pre>{
+  "user_id": 1,
+  "date": "2025-04-06",
+  "clock_in_time": "09:00:00",
+  "clock_out_time": "18:00:00",
+  "status": 1
+}</pre>
+    </div>
+    <div class="response">
+      <pre>{
+  "id": 2,
+  "user_id": 1,
+  "date": "2025-04-06",
+  "clock_in_time": "09:00:00",
+  "clock_out_time": "18:00:00",
+  "status": 1,
+  "created_at": "2025-04-06T13:00:00Z",
+  "updated_at": "2025-04-06T13:00:00Z"
+}</pre>
+    </div>
+
+    <h3>2.3 PUT /attendance_records/{id}</h3>
+    <p>説明: 特定の勤怠記録を更新します。</p>
+    <p><strong>パラメータ:</strong> id: 勤怠記録ID（整数）</p>
+    <p><strong>リクエストボディ:</strong></p>
+    <div class="param">
+      <pre>{
+  "clock_in_time": "08:30:00",
+  "clock_out_time": "17:30:00",
+  "status": 2
+}</pre>
+    </div>
+    <div class="response">
+      <pre>{
+  "id": 1,
+  "user_id": 1,
+  "date": "2025-04-06",
+  "clock_in_time": "08:30:00",
+  "clock_out_time": "17:30:00",
+  "status": 2,
+  "created_at": "2025-04-06T12:00:00Z",
+  "updated_at": "2025-04-06T13:00:00Z"
+}</pre>
+    </div>
+  </div>
+
+  <div id="チャットグループ-api" class="api-section">
+    <h2>チャットグループ API</h2>
+
+    <h3>3.1 GET /chat_groups</h3>
+    <p>説明: チャットグループのリストを取得します。</p>
+    <div class="response">
+      <pre>[
+  {
+    "id": 1,
+    "name": "開発チーム",
+    "created_at": "2025-04-06T12:00:00Z"
+  }
+]</pre>
+    </div>
+
+    <h3>3.2 POST /chat_groups</h3>
+    <p>説明: 新しいチャットグループを作成します。</p>
+    <p><strong>リクエストボディ:</strong></p>
+    <div class="param">
+      <pre>{
+  "name": "マーケティングチーム"
+}</pre>
+    </div>
+    <div class="response">
+      <pre>{
+  "id": 2,
+  "name": "マーケティングチーム",
+  "created_at": "2025-04-06T13:00:00Z"
+}</pre>
+    </div>
+  </div>
+
+  <div id="チャットメッセージ-api" class="api-section">
+    <h2>チャットメッセージ API</h2>
+
+    <h3>4.1 GET /chat_messages</h3>
+    <p>説明: チャットメッセージを取得します。</p>
+    <p><strong>クエリパラメータ:</strong> group_id: チャットグループID（整数）</p>
+    <div class="response">
+      <pre>[
+  {
+    "id": 1,
+    "user_id": 1,
+    "group_id": 1,
+    "message": "お疲れ様です。",
+    "created_at": "2025-04-06T12:00:00Z"
+  }
+]</pre>
+    </div>
+
+    <h3>4.2 POST /chat_messages</h3>
+    <p>説明: 新しいチャットメッセージを送信します。</p>
+    <p><strong>リクエストボディ:</strong></p>
+    <div class="param">
+      <pre>{
+  "user_id": 1,
+  "group_id": 1,
+  "message": "お疲れ様です。"
+}</pre>
+    </div>
+    <div class="response">
+      <pre>{
+  "id": 2,
+  "user_id": 1,
+  "group_id": 1,
+  "message": "お疲れ様です。",
+  "created_at": "2025-04-06T13:00:00Z"
+}</pre>
+    </div>
+  </div>
+
+  <div id="ワークフロー申請-api" class="api-section">
+    <h2>ワークフロー申請 API</h2>
+
+    <h3>5.1 GET /workflow_requests</h3>
+    <p>説明: ワークフロー申請のリストを取得します。</p>
+    <p><strong>クエリパラメータ:</strong> user_id: ユーザーID（整数）</p>
+    <div class="response">
+      <pre>[
+  {
+    "id": 1,
+    "user_id": 1,
+    "type": 0,
+    "status": 1,
+    "created_at": "2025-04-06T12:00:00Z"
+  }
+]</pre>
+    </div>
+
+    <h3>5.2 POST /workflow_requests</h3>
+    <p>説明: 新しいワークフロー申請を作成します。</p>
+    <p><strong>リクエストボディ:</strong></p>
+    <div class="param">
+      <pre>{
+  "user_id": 1,
+  "type": 1,
+  "status": 0
+}</pre>
+    </div>
+    <div class="response">
+      <pre>{
+  "id": 2,
+  "user_id": 1,
+  "type": 1,
+  "status": 0,
+  "created_at": "2025-04-06T13:00:00Z"
+}</pre>
+    </div>
+  </div>
+
+  <div id="通知-api" class="api-section">
+    <h2>通知 API</h2>
+
+    <h3>6.1 GET /notifications</h3>
+    <p>説明: 通知のリストを取得します。</p>
+    <p><strong>クエリパラメータ:</strong> user_id: ユーザーID（整数）</p>
+    <div class="response">
+      <pre>[
+  {
+    "id": 1,
+    "user_id": 1,
+    "message": "勤怠記録が提出されました。",
+    "sent_at": "2025-04-06T12:00:00Z"
+  }
+]</pre>
+    </div>
+
+    <h3>6.2 POST /notifications</h3>
+    <p>説明: 新しい通知を作成します。</p>
+    <p><strong>リクエストボディ:</strong></p>
+    <div class="param">
+      <pre>{
+  "user_id": 1,
+  "message": "勤怠記録が提出されました。"
+}</pre>
+    </div>
+    <div class="response">
+      <pre>{
+  "id": 2,
+  "user_id": 1,
+  "message": "勤怠記録が提出されました。",
+  "sent_at": "2025-04-06T13:00:00Z"
+}</pre>
+    </div>
+  </div>
+
+  <div id="月次経理データ-api" class="api-section">
+    <h2>月次経理データ API</h2>
+
+    <h3>7.1 GET /accounting_reports</h3>
+    <p>説明: 月次経理データのリストを取得します。</p>
+    <div class="response">
+      <pre>[
+  {
+    "id": 1,
+    "year_month": "2025-04",
+    "total_salary": 500000,
+    "total_expense": 200000,
+    "created_at": "2025-04-06T12:00:00Z"
+  }
+]</pre>
+    </div>
+  </div>
+
+  <div id="月次社労士データ-api" class="api-section">
+    <h2>月次社労士データ API</h2>
+
+    <h3>8.1 GET /labor_reports</h3>
+    <p>説明: 月次社労士データのリストを取得します。</p>
+    <div class="response">
+      <pre>[
+  {
+    "id": 1,
+    "year_month": "2025-04",
+    "total_work_hours": 160,
+    "overtime_hours": 20,
+    "created_at": "2025-04-06T12:00:00Z"
+  }
+]</pre>
+    </div>
+
+    <h3>8.2 POST /labor_reports</h3>
+    <p>説明: 新しい月次社労士データを作成します。</p>
+    <p><strong>リクエストボディ:</strong></p>
+    <div class="param">
+      <pre>{
+  "year_month": "2025-04",
+  "total_work_hours": 160,
+  "overtime_hours": 20
+}</pre>
+    </div>
+    <div class="response">
+      <pre>{
+  "id": 2,
+  "year_month": "2025-04",
+  "total_work_hours": 160,
+  "overtime_hours": 20,
+  "created_at": "2025-04-06T13:00:00Z"
+}</pre>
+    </div>
+  </div>
+
+</body>
+</html>

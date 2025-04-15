@@ -1,0 +1,8 @@
+■前提条件
+  Docker Desktopがインストールされていること
+
+■手順
+プロジェクトディレクトリへ移動
+  cd 【プロジェクトディレクトリ】
+Dockerコンテキストをビルド
+  docker-compose up --build

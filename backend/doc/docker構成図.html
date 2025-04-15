@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Docker構成図 (詳細版)</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #f0f4f8;
+    }
+    canvas {
+      display: block;
+      margin: 40px auto;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <canvas id="dockerCanvas" width="1400" height="900"></canvas>
+  <script>
+    const canvas = document.getElementById('dockerCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const services = [
+      { name: 'Chrome', x: 100, y: 50, icon: '🌐', label: 'Browser', port: '' },
+      { name: 'nginx', x: 100, y: 200, icon: '🌀', label: 'nginx:latest', port: '80' },
+      { name: 'frontend', x: 300, y: 100, icon: '⚛️', label: './frontend (FROM node)', port: 'watch', volume: './frontend:/app' },
+      { name: 'frontend_next', x: 300, y: 250, icon: '📘', label: './frontend_next (FROM node)', port: '3000', volume: './frontend_next:/app' },
+      { name: 'backend', x: 600, y: 100, icon: '🖥️', label: './backend (FROM node)', port: '5000', volume: './backend:/app' },
+      { name: 'mysql', x: 600, y: 250, icon: '🗄️', label: 'mysql:8.0', port: '3306', volume: 'mysql_data:/var/lib/mysql' },
+    ];
+
+    function drawBox(service) {
+      ctx.fillStyle = '#e3f2fd';
+      ctx.strokeStyle = '#42a5f5';
+      ctx.lineWidth = 2;
+      ctx.fillRect(service.x, service.y, 220, 130);
+      ctx.strokeRect(service.x, service.y, 220, 130);
+
+      ctx.fillStyle = '#1565c0';
+      ctx.font = '20px sans-serif';
+      ctx.fillText(service.icon, service.x + 10, service.y + 30);
+      ctx.fillText(service.name, service.x + 50, service.y + 30);
+
+      ctx.font = '14px sans-serif';
+      ctx.fillStyle = '#1a237e';
+      ctx.fillText(service.label, service.x + 10, service.y + 55);
+      ctx.fillStyle = '#616161';
+      if (service.port) ctx.fillText(`port: ${service.port}`, service.x + 10, service.y + 80);
+      if (service.volume) ctx.fillText(`volume: ${service.volume}`, service.x + 10, service.y + 100);
+    }
+
+    function drawArrow(from, to, label) {
+      const startX = from.x + 110;
+      const startY = from.y + 130;
+      const endX = to.x + 110;
+      const endY = to.y;
+
+      ctx.beginPath();
+      ctx.moveTo(startX, startY);
+      ctx.lineTo(endX, endY);
+      ctx.strokeStyle = '#444';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      const headlen = 10;
+      const angle = Math.atan2(endY - startY, endX - startX);
+      ctx.beginPath();
+      ctx.moveTo(endX, endY);
+      ctx.lineTo(endX - headlen * Math.cos(angle - Math.PI / 6), endY - headlen * Math.sin(angle - Math.PI / 6));
+      ctx.lineTo(endX - headlen * Math.cos(angle + Math.PI / 6), endY - headlen * Math.sin(angle + Math.PI / 6));
+      ctx.closePath();
+      ctx.fillStyle = '#444';
+      ctx.fill();
+
+      if (label) {
+        ctx.fillStyle = '#222';
+        ctx.font = '13px sans-serif';
+        const labelX = (startX + endX) / 2;
+        const labelY = (startY + endY) / 2 - 5;
+        ctx.fillText(label, labelX - 30, labelY);
+      }
+    }
+
+    services.forEach(drawBox);
+
+    drawArrow(services[0], services[1], 'HTTP Request');           // Chrome → nginx
+    drawArrow(services[1], services[2], 'serve static');          // nginx → frontend
+    drawArrow(services[1], services[3], 'proxy SSR');            // nginx → next.js
+    drawArrow(services[3], services[4], 'API request');          // next.js → backend
+    drawArrow(services[2], services[4], 'API request');          // frontend → backend
+    drawArrow(services[4], services[5], 'DB connection');        // backend → mysql
+
+    ctx.setLineDash([6, 4]);
+    ctx.strokeStyle = '#999';
+    ctx.strokeRect(60, 40, 1280, 800);
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = '#333';
+    ctx.font = '18px sans-serif';
+    ctx.fillText('Docker Network: app-network', 70, 30);
+  </script>
+</body>
+</html>
