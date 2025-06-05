@@ -9,7 +9,7 @@ services:
       - "3000:3000"
     networks:
       - app-network
-    command: npm run dev
+    command: npm run start
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true

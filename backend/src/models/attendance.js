@@ -14,15 +14,15 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    date: {
+    work_date: {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
-    clock_in_time: {
+    start_time: {
       type: DataTypes.TIME,
       allowNull: true,
     },
-    clock_out_time: {
+    end_time: {
       type: DataTypes.TIME,
       allowNull: true,
     },

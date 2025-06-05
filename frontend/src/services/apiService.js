@@ -28,4 +28,21 @@ export const apiService = {
       throw new Error("An unexpected error occurred. Please try again later.");
     }
   },
+
+  put: async (url, data) => {
+    try {
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to send data.");
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("API PUT Error:", error);
+      throw new Error("An unexpected error occurred. Please try again later.");
+    }
+  },
 };

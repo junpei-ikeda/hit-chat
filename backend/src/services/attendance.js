@@ -26,32 +26,32 @@ const getAttendanceByIdFromDB = async (id) => {
 };
 
 // タイムカードー一IDによる詳細取得
-const getAttendanceByUserIdAndDateFromDB = async (user_id, date) => {
+const getAttendanceByUserIdAndDateFromDB = async (user_id, work_date) => {
   try {
-    const records = await executeQuery('SELECT * FROM attendance_records WHERE user_id = ? AND date = ?', [user_id, date]);
+    const records = await executeQuery('SELECT * FROM attendance_records WHERE user_id = ? AND work_date = ?', [user_id, work_date]);
     if (!records || records.length === 0) {
-      throw new Error(`Attendance with user_id ${user_id} and date ${date} not found`);
+      throw new Error(`Attendance with user_id ${user_id} and work_date ${work_date} not found`);
     }
     return records;
   } catch (error) {
-    console.error('Error fetching attendance records by user_id and date from database:', error);
-    throw new Error(`Error fetching attendance records by user_id and date from database: ${error.message || 'Unknown error'}`);
+    console.error('Error fetching attendance records by user_id and work_date from database:', error);
+    throw new Error(`Error fetching attendance records by user_id and work_date from database: ${error.message || 'Unknown error'}`);
   }
 };
 
 // 新しいタイムカードの作成
-const createAttendanceInDB = async (user_id, date, clock_in_time, clock_out_time, status = 1) => {
+const createAttendanceInDB = async (user_id, work_date, start_time, end_time, status = 1) => {
   try {
     const result = await executeQuery(
-      'INSERT INTO attendance_records (user_id, date, clock_in_time, clock_out_time, status) VALUES (?,?,?,?,?)',
-      [user_id, date, clock_in_time, clock_out_time, status]
+      'INSERT INTO attendance_records (user_id, work_date, start_time, end_time, status) VALUES (?,?,?,?,?)',
+      [user_id, work_date, start_time, end_time, status]
     );
     const newAttendance = {
       id: result.insertId, // 新しく作成されたタイムカードのID
       user_id,
-      date: date.toISOString(),
-      clock_in_time: clock_in_time.toISOString(),
-      clock_out_time: clock_out_time.toISOString(),
+      work_date: work_date.toISOString(),
+      start_time: start_time.toISOString(),
+      end_time: end_time.toISOString(),
       status
     };
     return newAttendance;
@@ -62,11 +62,11 @@ const createAttendanceInDB = async (user_id, date, clock_in_time, clock_out_time
 };
 
 // タイムカード情報の更新
-const updateAttendanceInDB =  async (id, clock_in_time, clock_out_time, status) => {
+const updateAttendanceInDB =  async (id, start_time, end_time, status) => {
   try {
     const result = await executeQuery(
-      'UPDATE attendance_records SET clock_in_time = ?, clock_out_time = ?, status = ? WHERE id = ?',
-      [clock_in_time, clock_out_time, status, id]
+      'UPDATE attendance_records SET start_time = ?, end_time = ?, status = ? WHERE id = ?',
+      [start_time, end_time, status, id]
     );
     if (result.affectedRows === 0) {
       throw new Error(`Attendance record with id ${id} not found`);

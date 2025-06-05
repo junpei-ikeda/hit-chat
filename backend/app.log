@@ -1,0 +1,6 @@
+[2025-06-05T06:44:05.555Z] [31merror[39m: Error [500] [INTERNAL_SERVER_ERROR]: [5bdad545-27b1-43c2-9321-475c4f353ad6] Error fetching records from database: Database query failed
+[2025-06-05T06:47:07.763Z] [31merror[39m: Error [500] [INTERNAL_SERVER_ERROR]: [5bdad545-27b1-43c2-9321-475c4f353ad6] Error fetching records from database: Database query failed
+[2025-06-05T06:59:31.252Z] [31merror[39m: Error [500] [INTERNAL_SERVER_ERROR]: [5bdad545-27b1-43c2-9321-475c4f353ad6] Error fetching records from database: Database query failed
+[2025-06-05T08:47:04.523Z] [31merror[39m: Error [500] [INTERNAL_SERVER_ERROR]: [dfaacf56-ca7e-465d-8a83-6e1e6021c93e] Error fetching records from database: Database query failed
+[2025-06-05T08:47:12.774Z] [31merror[39m: Error [500] [INTERNAL_SERVER_ERROR]: [dfaacf56-ca7e-465d-8a83-6e1e6021c93e] Error fetching records from database: Database query failed
+[2025-06-05T08:47:23.496Z] [31merror[39m: Error [500] [INTERNAL_SERVER_ERROR]: [dfaacf56-ca7e-465d-8a83-6e1e6021c93e] Error fetching records from database: Database query failed

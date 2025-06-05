@@ -16,6 +16,7 @@ class AttendanceController extends BaseController {
   async getAttendances(req, res) {
     try {
       const records = await getrecordsFromDB();
+      console.log(records);
       this.sendSuccess(res, records);
     } catch (error) {
       this.sendError(res, error);
@@ -24,7 +25,7 @@ class AttendanceController extends BaseController {
 
   // 特定のタイムカード詳細情報取得API
   async getAttendanceByUserIdAndDate(req, res) {
-    const { user_id, date } = req.params; // URLパラメータからidを取得
+    const { user_id, date_work } = req.params; // URLパラメータからidを取得
     try {
       const records = await getAttendanceByUserIdAndDateFromDB(id);
       if (!records) {
@@ -38,9 +39,10 @@ class AttendanceController extends BaseController {
 
   // タイムカード作成API
   async createAttendanceRecord(req, res) {
-    const { user_id, date, clock_in_time, clock_out_time, status=1 } = req.body; // リクエストボディから必要な情報を取得
+    const { user_id, work_date, start_time, end_time, status=1 } = req.body; // リクエストボディから必要な情報を取得
     try {
-      const newAttendance = await createAttendanceInDB(user_id, date, clock_in_time, clock_out_time, status); // DBに新しいタイムカードを作成
+      const newAttendance = await createAttendanceInDB(user_id, work_date, start_time, end_time, status); // DBに新しいタイムカードを作成
+      
       this.sendSuccess(res, newAttendance);
     } catch (error) {
       this.sendError(res, error);
@@ -50,9 +52,9 @@ class AttendanceController extends BaseController {
   // タイムカード更新API
   async updateAttendance(req, res) {
     const { id } = req.params; // URLパラメータからidを取得
-    const { clock_in_time, clock_out_time, status} = req.body; // リクエストボディから必要な情報を取得
+    const { start_time, end_time, status} = req.body; // リクエストボディから必要な情報を取得
     try {
-      const updatedAttendance = await updateAttendanceInDB(id, clock_in_time, clock_out_time, status); // DBでタイムカード情報を更新
+      const updatedAttendance = await updateAttendanceInDB(id, start_time, end_time, status); // DBでタイムカード情報を更新
       this.sendSuccess(res, updatedAttendance);
     } catch (error) {
       this.sendError(res, error);
